@@ -12,6 +12,10 @@
 		DD377F9B2B9CC0CA00ACC59F /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD377F9A2B9CC0CA00ACC59F /* Item.swift */; };
 		DD377F9D2B9CC0CB00ACC59F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD377F9C2B9CC0CB00ACC59F /* Assets.xcassets */; };
 		DD377FA02B9CC0CB00ACC59F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD377F9F2B9CC0CB00ACC59F /* Preview Assets.xcassets */; };
+		DD377FA72B9CC2FC00ACC59F /* OpalInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD377FA62B9CC2FC00ACC59F /* OpalInteractor.swift */; };
+		DD377FA92B9CC32000ACC59F /* OpalPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD377FA82B9CC32000ACC59F /* OpalPresenter.swift */; };
+		DD377FAB2B9CC32D00ACC59F /* OpalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD377FAA2B9CC32D00ACC59F /* OpalRouter.swift */; };
+		DD377FAD2B9CC37400ACC59F /* OpalEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD377FAC2B9CC37400ACC59F /* OpalEntity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +25,10 @@
 		DD377F9A2B9CC0CA00ACC59F /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		DD377F9C2B9CC0CB00ACC59F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD377F9F2B9CC0CB00ACC59F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		DD377FA62B9CC2FC00ACC59F /* OpalInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpalInteractor.swift; sourceTree = "<group>"; };
+		DD377FA82B9CC32000ACC59F /* OpalPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpalPresenter.swift; sourceTree = "<group>"; };
+		DD377FAA2B9CC32D00ACC59F /* OpalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpalRouter.swift; sourceTree = "<group>"; };
+		DD377FAC2B9CC37400ACC59F /* OpalEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpalEntity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +66,10 @@
 				DD377F9A2B9CC0CA00ACC59F /* Item.swift */,
 				DD377F9C2B9CC0CB00ACC59F /* Assets.xcassets */,
 				DD377F9E2B9CC0CB00ACC59F /* Preview Content */,
+				DD377FA62B9CC2FC00ACC59F /* OpalInteractor.swift */,
+				DD377FA82B9CC32000ACC59F /* OpalPresenter.swift */,
+				DD377FAA2B9CC32D00ACC59F /* OpalRouter.swift */,
+				DD377FAC2B9CC37400ACC59F /* OpalEntity.swift */,
 			);
 			path = OpalTapes;
 			sourceTree = "<group>";
@@ -140,8 +152,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD377FA92B9CC32000ACC59F /* OpalPresenter.swift in Sources */,
 				DD377F992B9CC0CA00ACC59F /* ContentView.swift in Sources */,
+				DD377FAD2B9CC37400ACC59F /* OpalEntity.swift in Sources */,
 				DD377F9B2B9CC0CA00ACC59F /* Item.swift in Sources */,
+				DD377FA72B9CC2FC00ACC59F /* OpalInteractor.swift in Sources */,
+				DD377FAB2B9CC32D00ACC59F /* OpalRouter.swift in Sources */,
 				DD377F972B9CC0CA00ACC59F /* OpalTapesApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

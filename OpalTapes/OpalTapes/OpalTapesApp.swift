@@ -10,7 +10,7 @@ import SwiftData
 
 @main
 struct OpalTapesApp: App {
-    var sharedModelContainer: ModelContainer = {
+    var MainModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
         ])
@@ -25,8 +25,8 @@ struct OpalTapesApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
         }
-        .modelContainer(sharedModelContainer)
+        .modelContainer(MainModelContainer)
     }
 }
