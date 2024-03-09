@@ -1,0 +1,11 @@
+.DS_Store
+/build/
+*.pbxuser
+!default.pbxuser
+xcuserdata
+*.xccheckout
+DerivedData
+/.build/
+/.swifpm/
+.env*
+
