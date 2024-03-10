@@ -25,7 +25,9 @@ struct OpalTapesApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView()
+            MainView().onAppear {
+                let _ = FetchTrack()
+            }
         }
         .modelContainer(MainModelContainer)
     }

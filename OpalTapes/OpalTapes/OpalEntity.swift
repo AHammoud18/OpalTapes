@@ -9,14 +9,16 @@ import Foundation
 import AVFoundation
 import UIKit
 
+// Create skeleton of data setup for app (classes, structs, etc.)
+
 
 protocol NetworkRequest {
-    func performRequest(url: String)
+    func performRequest(url: URL)
 }
 
 protocol AudioPlayerSetup {
-    init (url: String, player: AVAudioPlayer)
-    func initalizePlayer()
+    init (url: URL, player: AVAudioPlayer)
+    func initalizePlayer() async
 }
 
 struct Track {
