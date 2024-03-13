@@ -58,11 +58,12 @@ struct playerButton {
     }
     
     func buttonSetup() -> some View {
-        return Button {
+        let button = Button {
             self.command
         }label: {
             Image(uiImage:UIImage(systemName: self.buttonType)!)
         }
+        return button
     }
 }
 

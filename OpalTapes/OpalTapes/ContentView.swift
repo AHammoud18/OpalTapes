@@ -21,11 +21,10 @@ struct MainView: View {
                 trackInfo()
                     .scaleEffect(CGSize(width: 0.8, height: 0.8))
                     .scenePadding()
-                if audioPlayerData.player != nil {
-                    trackControls()
-                }
+                trackControls()
             }.onAppear {
                 audioPlayerData.playerReady = {
+                    // Handle some local UI updates if the player is ready
                     print("Ready to play")
                 }
             }
@@ -49,8 +48,8 @@ struct MainView: View {
         let status = audioPlayerData.isPlaying
         return HStack {
             playerButton(
-                buttonType: audioPlayerData.isPlaying ? controls[0] : controls[1],
-                command: audioPlayerData.isPlaying ? (audioPlayerData.player?.pause())! : (audioPlayerData.player?.play())!
+                buttonType: self.audioPlayerData.isPlaying ? controls[1] : controls[0],
+                command: self.audioPlayerData.isPlaying ? self.audioPlayerData.playSong() : self.audioPlayerData.pauseSong()
             ).buttonSetup()
         }
     }
