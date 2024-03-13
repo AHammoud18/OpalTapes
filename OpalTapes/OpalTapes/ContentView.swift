@@ -9,17 +9,25 @@ import SwiftUI
 import SwiftData
 
 struct MainView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
+    @StateObject private var audioData = OpalViewData().audioManager
+    @State private var artist: String?
     var body: some View {
-        Text("ooga")
+        ZStack{
+            Text(audioData.track.artist)
+            Text(audioData.track.album)
+            Text(audioData.track.title)
+            Image(uiImage: audioData.track.art ?? UIImage(systemName: "bonjour")!)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+        }
     }
-
     
+    //@Environment(\.modelContext) private var modelContext
+    //@Query private var items: [Item]
+
 }
 
 #Preview {
     MainView()
-        .modelContainer(for: Item.self, inMemory: true)
+        //.modelContainer(for: Item.self, inMemory: true)
 }
