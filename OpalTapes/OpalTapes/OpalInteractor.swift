@@ -66,11 +66,12 @@ class FetchTrack: NetworkRequest, ObservableObject {
     
 }
 //#MARK: AudioPlayer Class
-class AudioPlayer: ObservableObject, AudioPlayerSetup {
+class AudioPlayer: ObservableObject, AudioPlayerSetup{
     
     let interval = CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
     var timeObserver: Any?
     var audioData = DataManager.data
+    var songDidLoad = false
     
     init(timeObserver: Any? = nil) {
             self.timeObserver = timeObserver
@@ -102,10 +103,9 @@ class AudioPlayer: ObservableObject, AudioPlayerSetup {
             NotificationCenter.default.addObserver(self, selector: #selector(songDidComplete), name: AVPlayerItem.didPlayToEndTimeNotification, object: audioData.player?.currentItem)
             
             timeObserver = audioData.player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
-                print(time.seconds)
             }
-            
-            await nextSong()
+            audioData.playerReady?()
+            await audioData.nextSong()
             
             // If observer needs to be removed
             
@@ -117,10 +117,22 @@ class AudioPlayer: ObservableObject, AudioPlayerSetup {
              */
         }
     }
-
+    
     @objc func songDidComplete() {
         //#MARK: Logic Handled Here When Song Ends
     }
+    
+}
+
+class DataManager: ObservableObject, AudioData {
+    
+    static let data = DataManager()
+    @Published public var track = Track()
+    @Published var player: AVPlayer?
+    @Published var songLoaded: Bool = false
+    @Published var isPlaying: Bool = false
+    var playerReady: (() -> Void)?
+
     
     func getMetadata(player: AVPlayer?) async {
         //#MARK: Fetch Metadata info from track
@@ -134,21 +146,21 @@ class AudioPlayer: ObservableObject, AudioPlayerSetup {
                         case .commonKeyTitle:
                             if let value = try await item.load(.stringValue) {
                                 await MainActor.run {
-                                    self.audioData.track.title = value
+                                    self.track.title = value
                                 }
                             }
                             
                         case .commonKeyArtist:
                             if let value = try await item.load(.stringValue) {
                                 await MainActor.run {
-                                    self.audioData.track.artist = value
+                                    self.track.artist = value
                                 }
                             }
                         
                         case .commonKeyAlbumName:
                             if let value = try await item.load(.stringValue) {
                                 await MainActor.run {
-                                    self.audioData.track.album = value
+                                    self.track.album = value
                                 }
                             }
                             
@@ -157,7 +169,7 @@ class AudioPlayer: ObservableObject, AudioPlayerSetup {
                             if let value = try await item.load(.dataValue) {
                                 await MainActor.run {
                                     let image = UIImage(data: value)
-                                    self.audioData.track.art = image
+                                    self.track.art = image
                                 }
                             }
                             
@@ -170,14 +182,22 @@ class AudioPlayer: ObservableObject, AudioPlayerSetup {
             catch {
                 assertionFailure(error.localizedDescription)
             }
+        self.songLoaded = true
     }
     
     func nextSong() async {
-        await getMetadata(player: audioData.player)
+        self.songLoaded = false
+        await getMetadata(player: self.player)
+    }
+    
+    func playSong() {
+        self.player?.play()
         //
     }
     
-    func prevSong() {
+    
+    func pauseSong() {
+        self.player?.pause()
         //
     }
     
@@ -185,25 +205,12 @@ class AudioPlayer: ObservableObject, AudioPlayerSetup {
         //
     }
     
-    func playSong() {
+    func prevSong() {
         //
-        audioData.player?.play()
-        print("playing...")
     }
     
-    func pauseSong() {
+    func repeatSong() {
         //
-        audioData.player?.pause()
-        print("paused")
     }
-    
-}
-
-class DataManager: ObservableObject {
-    
-    static let data = DataManager()
-    @Published public var track = Track()
-    @Published var player: AVPlayer?
-    
     
 }

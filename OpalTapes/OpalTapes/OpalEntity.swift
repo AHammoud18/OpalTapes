@@ -19,12 +19,16 @@ protocol NetworkRequest {
 
 protocol AudioPlayerSetup {
     func initalizePlayer(url: URL)
-    func nextSong() async
-    func prevSong()
-    func favoriteSong()
+}
+
+protocol AudioData {
+    func getMetadata(player: AVPlayer?) async
     func playSong()
     func pauseSong()
-    func getMetadata(player: AVPlayer?) async
+    func favoriteSong()
+    func nextSong() async
+    func prevSong()
+    func repeatSong()
 }
 
 struct Track {
@@ -40,6 +44,25 @@ struct Track {
         self.title = title
         self.art = art
         self.duration = duration
+    }
+}
+
+struct playerButton {
+    
+    var buttonType: String
+    var command: ()
+    
+    init(buttonType: String, command: ()) {
+        self.buttonType = buttonType
+        self.command = command
+    }
+    
+    func buttonSetup() -> some View {
+        return Button {
+            self.command
+        }label: {
+            Image(uiImage:UIImage(systemName: self.buttonType)!)
+        }
     }
 }
 

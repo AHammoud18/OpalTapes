@@ -14,14 +14,10 @@ import AVKit
 class OpalViewData: ObservableObject {
     
     var audioManager: DataManager
+    static let viewData = OpalViewData()
     
     init(audioManager: DataManager = DataManager.data) {
         self.audioManager = audioManager
     }
-
-}
-
-protocol PlayerView {
-    func playerButtons() -> any View
-    func almbumArt(art: UIImage) -> any View
+    
 }
