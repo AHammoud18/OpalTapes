@@ -8,6 +8,7 @@
 
 import Foundation
 import AVFoundation
+import MediaPlayer
 import UIKit
 import SwiftUI
 
@@ -110,6 +111,7 @@ class AudioPlayer: ObservableObject, AudioPlayerSetup{
             do {
                 try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
                 try? AVAudioSession.sharedInstance().setActive(true)
+                await UIApplication.shared.beginReceivingRemoteControlEvents()
             } catch {
                 print(error.localizedDescription)
             }
@@ -164,6 +166,7 @@ class DataManager: ObservableObject, AudioData {
     
     func getMetadata(player: AVPlayer?) async {
         //#MARK: Fetch Metadata info from track
+        var backgroundInfo = [String : Any]()
             do {
                 if let playerItem = player?.currentItem {
                     /// .load() runs asynchronously, MainActor to apply UI updates on main thread
@@ -173,6 +176,7 @@ class DataManager: ObservableObject, AudioData {
                         switch item.commonKey {
                         case .commonKeyTitle:
                             if let value = try await item.load(.stringValue) {
+                                backgroundInfo[MPMediaItemPropertyTitle] = value
                                 await MainActor.run {
                                     self.track.title = value
                                 }
@@ -180,6 +184,7 @@ class DataManager: ObservableObject, AudioData {
                             
                         case .commonKeyArtist:
                             if let value = try await item.load(.stringValue) {
+                                backgroundInfo[MPMediaItemPropertyArtist] = value
                                 await MainActor.run {
                                     self.track.artist = value
                                 }
@@ -187,6 +192,7 @@ class DataManager: ObservableObject, AudioData {
                         
                         case .commonKeyAlbumName:
                             if let value = try await item.load(.stringValue) {
+                                backgroundInfo[MPMediaItemPropertyAlbumTitle]
                                 await MainActor.run {
                                     self.track.album = value
                                 }
@@ -195,9 +201,10 @@ class DataManager: ObservableObject, AudioData {
                             
                         case .commonKeyArtwork:
                             if let value = try await item.load(.dataValue) {
+                                let artwork = UIImage(data: value)
+                                backgroundInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: artwork!.size) { size in return artwork! }
                                 await MainActor.run {
-                                    let image = UIImage(data: value)
-                                    self.track.art = image
+                                    self.track.art = artwork
                                 }
                             }
                             
@@ -210,6 +217,7 @@ class DataManager: ObservableObject, AudioData {
             catch {
                 assertionFailure(error.localizedDescription)
             }
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = backgroundInfo
         self.songLoaded = true
     }
     
