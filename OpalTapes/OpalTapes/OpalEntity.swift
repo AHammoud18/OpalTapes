@@ -23,8 +23,7 @@ protocol AudioPlayerSetup {
 
 protocol AudioData {
     func getMetadata(player: AVPlayer?) async
-    func playSong()
-    func pauseSong()
+    func setPlayback(_: ())
     func favoriteSong()
     func nextSong() async
     func prevSong()
@@ -32,9 +31,9 @@ protocol AudioData {
 }
 
 struct Track {
-    var artist: String
-    var album: String
-    var title: String
+    var artist: String?
+    var album: String?
+    var title: String?
     var art: UIImage?
     var duration: Double
     
@@ -52,18 +51,19 @@ struct playerButton {
     var buttonType: String
     var command: ()
     
-    init(buttonType: String, command: ()) {
+    init(buttonType: String, command: @escaping () -> Void) {
         self.buttonType = buttonType
-        self.command = command
+        self.command = command()
     }
     
     func buttonSetup() -> some View {
-        let button = Button {
+        return Button {
             self.command
         }label: {
-            Image(uiImage:UIImage(systemName: self.buttonType)!)
-        }
-        return button
+            Image(systemName: self.buttonType)
+                .resizable()
+                .foregroundStyle(.indigo)
+        }.scaleEffect(CGSize(width: 0.05, height: 0.05))
     }
 }
 

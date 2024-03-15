@@ -9,6 +9,7 @@
 import Foundation
 import AVFoundation
 import UIKit
+import SwiftUI
 
 
 class FetchTrack: NetworkRequest, ObservableObject {
@@ -131,6 +132,7 @@ class DataManager: ObservableObject, AudioData {
     @Published var player: AVPlayer?
     @Published var songLoaded: Bool = false
     @Published var isPlaying: Bool = false
+    @Published var isFavorited: Bool = false
     var playerReady: (() -> Void)?
 
     
@@ -190,15 +192,8 @@ class DataManager: ObservableObject, AudioData {
         await getMetadata(player: self.player)
     }
     
-    func playSong() {
-        self.player?.play()
-        //
-    }
-    
-    
-    func pauseSong() {
-        self.player?.pause()
-        //
+    func setPlayback(_: ()) {
+        self.isPlaying ? self.player?.play() : self.player?.pause()
     }
     
     func favoriteSong() {
