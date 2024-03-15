@@ -30,6 +30,7 @@ struct MainView: View {
                     // playback will show here
                     Divider()
                         .scaleEffect(CGSize(width: 20, height: 20))
+                        .hidden()
                     
                     // track controls
                     viewData.trackControls(geo: geo)
@@ -53,6 +54,14 @@ struct MainView: View {
                         .hidden()
                 }
             }
+        }.background {
+            Image(uiImage: audioPlayerData.track.art ?? UIImage(named: "alula")!)
+                .resizable()
+                .blur(radius: 80)
+                .ignoresSafeArea()
+                .saturation(0.5)
+                .scaledToFill()
+                
         }
     }
     //@Environment(\.modelContext) private var modelContext

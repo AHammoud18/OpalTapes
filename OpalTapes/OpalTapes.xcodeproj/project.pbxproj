@@ -29,6 +29,7 @@
 		DD377FA82B9CC32000ACC59F /* OpalPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpalPresenter.swift; sourceTree = "<group>"; };
 		DD377FAA2B9CC32D00ACC59F /* OpalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpalRouter.swift; sourceTree = "<group>"; };
 		DD377FAC2B9CC37400ACC59F /* OpalEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpalEntity.swift; sourceTree = "<group>"; };
+		DDA3CFF02BA4A8AF004CA7EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +62,7 @@
 		DD377F952B9CC0CA00ACC59F /* OpalTapes */ = {
 			isa = PBXGroup;
 			children = (
+				DDA3CFF02BA4A8AF004CA7EB /* Info.plist */,
 				DD377F962B9CC0CA00ACC59F /* OpalTapesApp.swift */,
 				DD377F982B9CC0CA00ACC59F /* ContentView.swift */,
 				DD377F9A2B9CC0CA00ACC59F /* Item.swift */,
@@ -295,6 +297,7 @@
 				DEVELOPMENT_TEAM = 7CS95DRWJT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OpalTapes/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -329,6 +332,7 @@
 				DEVELOPMENT_TEAM = 7CS95DRWJT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OpalTapes/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

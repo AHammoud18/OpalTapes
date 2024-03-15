@@ -104,7 +104,26 @@ class AudioPlayer: ObservableObject, AudioPlayerSetup{
             NotificationCenter.default.addObserver(self, selector: #selector(songDidComplete), name: AVPlayerItem.didPlayToEndTimeNotification, object: audioData.player?.currentItem)
             
             timeObserver = audioData.player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
+                
             }
+            // setup audio session to play in the background
+            do {
+                try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+                try? AVAudioSession.sharedInstance().setActive(true)
+            } catch {
+                print(error.localizedDescription)
+            }
+            
+            // Observer to handle song interruptions
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(songInterrupted),
+                                                   name: AVAudioSession.interruptionNotification,
+                                                   object: AVAudioSession.sharedInstance()
+            )
+            
+
+            
+            
             audioData.playerReady?()
             await audioData.nextSong()
             
@@ -119,8 +138,15 @@ class AudioPlayer: ObservableObject, AudioPlayerSetup{
         }
     }
     
+    @objc func songInterrupted() {
+        //#MARK: When the song has been interrupted by another source
+        audioData.isPlaying = false
+        audioData.player?.pause()
+    }
+    
     @objc func songDidComplete() {
         //#MARK: Logic Handled Here When Song Ends
+        print("songCompleted")
     }
     
 }
