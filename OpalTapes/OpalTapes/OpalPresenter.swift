@@ -38,20 +38,21 @@ class OpalViewData: ObservableObject {
                     .overlay {
                         ZStack {
                             VStack {
-                                Text("Test Title")
-                                //Text(audioManager.track.title ?? "")
-                                    .frame(alignment: .leading)
+                                //Text("Test Title")
+                                Text(audioManager.track.title ?? "")
+                                    .frame(minWidth: geo.width, alignment: .leading)
                                     .foregroundStyle(.white)
                                     .font(.largeTitle)
                                     .overlay {
-                                        Text("Test Artist")
-                                        //Text(audioManager.track.artist ?? "")
+                                        //Text("Test Artist")
+                                        Text(audioManager.track.artist ?? "")
                                             .foregroundStyle(.white)
+                                            .frame(minWidth: geo.width, alignment: .leading)
                                             .font(.title2)
-                                            .offset(x: -14, y: 100)
+                                            .offset(y: 80)
                                     }
                             }
-                        }.position(x: geo.midX*0.3, y: geo.height/1.8)
+                        }.position(x: geo.midX, y: geo.height/1.8)
                     }
         }
         
