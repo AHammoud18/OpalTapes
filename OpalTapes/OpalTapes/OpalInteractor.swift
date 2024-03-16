@@ -123,9 +123,6 @@ class AudioPlayer: ObservableObject, AudioPlayerSetup{
                                                    object: AVAudioSession.sharedInstance()
             )
             
-
-            
-            
             audioData.playerReady?()
             await audioData.nextSong()
             
@@ -161,6 +158,7 @@ class DataManager: ObservableObject, AudioData {
     @Published var songLoaded: Bool = false
     @Published var isPlaying: Bool = false
     @Published var isFavorited: Bool = false
+    private let commandCenter = MPRemoteCommandCenter.shared()
     var playerReady: (() -> Void)?
 
     
@@ -217,8 +215,19 @@ class DataManager: ObservableObject, AudioData {
             catch {
                 assertionFailure(error.localizedDescription)
             }
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = backgroundInfo
         self.songLoaded = true
+        // Configure Background Tasks
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = backgroundInfo
+        setupBackgroundTasks(command: commandCenter.playCommand)
+        setupBackgroundTasks(command: commandCenter.pauseCommand)
+    }
+    
+    func setupBackgroundTasks(command: MPRemoteCommand) {
+        command.addTarget { [unowned self] _ in
+            setPlayback(())
+            self.isPlaying.toggle()
+            return .success
+        }
     }
     
     func nextSong() async {
@@ -227,7 +236,7 @@ class DataManager: ObservableObject, AudioData {
     }
     
     func setPlayback(_: ()) {
-        self.isPlaying ? self.player?.play() : self.player?.pause()
+        self.isPlaying ? self.player?.pause() : self.player?.play()
     }
     
     func favoriteSong() {
