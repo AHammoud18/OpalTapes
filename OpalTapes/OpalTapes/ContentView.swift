@@ -22,17 +22,17 @@ struct MainView: View {
             let global = geo.frame(in: .global)
             ZStack {
                 VStack {
-                    // song info
+                    // #MARK: Song Info
                     viewData.trackInfo(geo: geo)
                         .scaleEffect(CGSize(width: 0.8, height: 0.8))
                         .padding(EdgeInsets(top: CGFloat(20), leading: .zero, bottom: CGFloat(80), trailing: .zero))
                         .frame(height: height/1.5)
-                    // playback will show here
-                    Divider()
-                        .scaleEffect(CGSize(width: 20, height: 20))
-                        .hidden()
+                    // #MARK: Playback Bar
                     
-                    // track controls
+                    viewData.songBar(geo: geo)
+                        .padding()
+                    
+                    // #MARK: Track Controls
                     viewData.trackControls(geo: geo)
                         .scaleEffect(CGSize(width: 2, height: 2))
                         .padding()
@@ -45,7 +45,7 @@ struct MainView: View {
                         print("Ready to play")
                     }
                 }
-                
+                // #MARK: Album Card (WIP)
                 if self.audioPlayerData.songLoaded {
                     viewData.tapeInfo(geo: geo)
                         .transition(viewData.showAlbumCard())
@@ -55,6 +55,7 @@ struct MainView: View {
                 }
             }
         }.background {
+            // #MARK: Background Image
             Image(uiImage: audioPlayerData.track.art ?? UIImage(named: "alula")!)
                 .resizable()
                 .blur(radius: 80)
@@ -76,10 +77,9 @@ struct playbackControls : UIViewControllerRepresentable {
         playerView.player = audioPlayer.player
         playerView.showsPlaybackControls = true
         return playerView
-        //
     }
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-        //
+        
     }
 }
 

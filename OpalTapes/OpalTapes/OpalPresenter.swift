@@ -20,6 +20,7 @@ class OpalViewData: ObservableObject {
         self.audioManager = audioManager
     }
     
+    // #MARK: Info View
     func trackInfo(geo: GeometryProxy) -> some View {
         let geo = geo.frame(in: .global)
         return VStack{
@@ -57,32 +58,79 @@ class OpalViewData: ObservableObject {
         }
         
     }
+    // #MARK: Seek View
+    
+    func songBar(geo: GeometryProxy) -> some View {
+        return LazyVStack(alignment: .center, spacing: 10) {
+            ProgressView(value: audioManager.player?.currentTime().seconds.rounded(), total: audioManager.track.duration?.rounded() ?? 0.00)
+                .progressViewStyle(.linear)
+                .gesture(DragGesture()
+                    .onEnded { drag in
+                        
+                        print(drag.startLocation.x)
+                        
+                        print(drag.location.x)
+                        
+                    }
+                )
+                .tint(.white)
+                .scaleEffect(CGSize(width: 0.9, height: 2))
+                
+            LazyHStack(alignment: .center, spacing: geo.size.width.scaled(by: 0.7)) {
+                Text("0:00")
+                    .tint(.white)
+                    .font(Font.footnote)
+                Text("0:00")
+                    .tint(.white)
+                    .font(Font.footnote)
+            }
+        }
+    }
+    
+    // #MARK: Controls View
     
     func trackControls(geo: GeometryProxy) -> some View {
-        let controls = ["play.fill", "pause.fill", "repeat", "infinity", "heart", "heart.fill"]
-        return HStack(spacing: 100) {
-            Button {
-                self.playbackStatus()
-            } label: {
-                Image(systemName: self.audioManager.isPlaying ? controls[1] : controls[0])
-                    .foregroundStyle(self.audioManager.isPlaying ? .gray : .white)
-                    //.resizable()
-            }
-            // favorite
-            Button {
-                self.favoriteSong()
-            } label: {
-                ZStack {
-                    if self.audioManager.isFavorited {
-                        Image(systemName: controls[5])
-                            .shadow(radius: 2)
-                            .transition(favAnimation())
-                            .foregroundStyle(.pink)
-                    }
-                    Image(systemName: self.audioManager.isFavorited ? controls[5] : controls[4])
-                        .foregroundStyle(self.audioManager.isFavorited ? .pink : .white)
+        let controls = ["play.fill", "pause.fill", "repeat", "repeat.1" , "infinity", "heart", "heart.fill"]
+        return VStack(spacing: 20) {
+                HStack(spacing: 100) {
+                Button {
+                    self.audioManager.setPlayback(())
+                } label: {
+                    Image(systemName: self.audioManager.isPlaying ? controls[1] : controls[0])
+                        .foregroundStyle(self.audioManager.isPlaying ? .gray : .white)
                 }
-                    //.resizable()
+                // favorite
+                Button {
+                    self.favoriteSong()
+                } label: {
+                    ZStack {
+                        if self.audioManager.isFavorited {
+                            Image(systemName: controls[5])
+                                .shadow(radius: 2)
+                                .transition(favAnimation())
+                                .foregroundStyle(.pink)
+                        }
+                        Image(systemName: self.audioManager.isFavorited ? controls[6] : controls[5])
+                            .foregroundStyle(self.audioManager.isFavorited ? .pink : .white)
+                    }
+                }
+            }
+            HStack(spacing: 60) {
+                Button {
+                    self.audioManager.isRepeating.toggle()
+                } label : {
+                    ZStack {
+                        Image(systemName: self.audioManager.isRepeating ? controls[3] : controls[2])
+                            .foregroundStyle(.white)
+                            .shadow(color: .white, radius: self.audioManager.isRepeating ? 10 : 0)
+                    }
+                }
+                Button {
+                    self.audioManager.nextSong()
+                } label : {
+                    Image(systemName: controls[4])
+                        .foregroundStyle(.white)
+                }
             }
         }
     }
@@ -123,19 +171,6 @@ class OpalViewData: ObservableObject {
     }
     
     // #MARK: Control Methods
-    func playbackStatus() {
-        self.audioManager.isPlaying.toggle()
-        switch self.audioManager.isPlaying {
-        case true:
-            if let _ = self.audioManager.player {
-                self.audioManager.player?.play()
-            }
-        case false:
-            if let _ = self.audioManager.player {
-                self.audioManager.player?.pause()
-            }
-        }
-    }
     
     func favoriteSong() {
         self.audioManager.isFavorited.toggle()

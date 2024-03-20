@@ -26,12 +26,11 @@ struct OpalTapesApp: App {
     var body: some Scene {
         WindowGroup {
             MainView().onAppear {
-                let url = URL(string: "https://8ryrb4e4he.execute-api.us-east-1.amazonaws.com/default/createPresignedURL?gd7lHEDAJx7Bo6JpCkXcO8nbJuTDFnTR8d6aMflJ")!
                 let requestTrack = FetchTrack()
                 requestTrack.networkFetchDone = {
                     print("Finished Request")
                 }
-                requestTrack.performRequest(url: url )
+                requestTrack.performRequest()
             }
         }
         .modelContainer(MainModelContainer)

@@ -14,7 +14,7 @@ import SwiftUI
 
 
 protocol NetworkRequest {
-    func performRequest(url: URL)
+    func performRequest()
 }
 
 protocol AudioPlayerSetup {
@@ -25,7 +25,8 @@ protocol AudioData {
     func getMetadata(player: AVPlayer?) async
     func setPlayback(_: ())
     func favoriteSong()
-    func nextSong() async
+    func loadSong() async
+    func nextSong()
     func prevSong()
     func repeatSong()
 }
@@ -35,9 +36,9 @@ struct Track {
     var album: String?
     var title: String?
     var art: UIImage?
-    var duration: Double
+    var duration: Double?
     
-    init(artist: String = "", album: String = "", title: String = "", art: UIImage? = nil, duration: Double = 0.0) {
+    init(artist: String = "", album: String = "", title: String = "", art: UIImage? = nil, duration: Double = 0.00) {
         self.artist = artist
         self.album = album
         self.title = title
@@ -46,6 +47,7 @@ struct Track {
     }
 }
 
+/*
 struct playerButton {
     
     var buttonType: String
@@ -66,4 +68,4 @@ struct playerButton {
         }.scaleEffect(CGSize(width: 0.05, height: 0.05))
     }
 }
-
+*/
